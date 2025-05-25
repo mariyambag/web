@@ -2,68 +2,143 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Story Smith</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      background-color: #f5f7fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f7f9fc;
       color: #333;
-      line-height: 1.6;
     }
+
     header {
-      background-color: #2c3e50;
+      background: #2c3e50;
       color: white;
-      padding: 2rem 1rem;
+      padding: 60px 20px;
       text-align: center;
     }
+
     header h1 {
       margin: 0;
-      font-size: 2.8rem;
+      font-size: 3rem;
     }
+
+    header p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+    }
+
     main {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
+      max-width: 1000px;
+      margin: auto;
+      padding: 30px 20px;
     }
+
     section {
       background: white;
-      border-radius: 8px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
-    h2 {
-      color: #2c3e50;
+
+    section h2 {
       margin-top: 0;
+      color: #2c3e50;
     }
-    p {
-      font-size: 1.1rem;
-    }
+
     footer {
-      text-align: center;
-      padding: 1.5rem;
       background: #ecf0f1;
-      color: #777;
+      text-align: center;
+      padding: 20px;
       font-size: 0.9rem;
+      color: #555;
     }
+
+    /* Chatbot styles */
+    #chatbot-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    #chatbot-box {
+      display: none;
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 300px;
+      max-height: 400px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      flex-direction: column;
+      z-index: 999;
+      overflow: hidden;
+    }
+
+    #chatbot-header {
+      background: #2c3e50;
+      color: white;
+      padding: 12px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    #chatbot-messages {
+      padding: 10px;
+      height: 260px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+
+    #chatbot-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    #chatbot-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+
+    #chatbot-input button {
+      padding: 10px;
+      border: none;
+      background: #2c3e50;
+      color: white;
+      cursor: pointer;
+    }
+
     @media (max-width: 600px) {
       header h1 {
         font-size: 2rem;
-      }
-      main {
-        padding: 0 0.5rem;
       }
     }
   </style>
 </head>
 <body>
+
+  <!-- Header / Hero -->
   <header>
     <h1>Story Smith</h1>
-    <p>Transform your story ideas into structured outlines with AI-powered prompt engineering</p>
+    <p>Helping writers turn vague ideas into structured stories using AI</p>
   </header>
 
+  <!-- Main content -->
   <main>
     <section>
       <h2>Problem Statement</h2>
@@ -72,13 +147,68 @@
 
     <section>
       <h2>Our Solution</h2>
-      <p>Using prompt engineering, Story Smith converts vague user inputs into detailed, structured prompts that guide an AI model — like GPT-4 — to generate comprehensive story outlines. This makes it easy for writers to develop full narratives from just a seed of an idea.</p>
+      <p>Using prompt engineering, Story Smith converts vague user inputs into detailed, structured prompts that guide an AI model — like GPT-4 — to generate comprehensive story outlines. This helps writers easily evolve their ideas into full narratives.</p>
+    </section>
+
+    <section>
+      <h2>About Story Smith</h2>
+      <p>Story Smith is a project focused on empowering storytellers with the help of artificial intelligence. Whether you're a novelist, screenwriter, or just love writing, we help you move from "idea" to "outline" in minutes.</p>
     </section>
   </main>
 
+  <!-- Footer -->
   <footer>
-    &copy; 2025 Story Smith. All rights reserved.<br />
-    Website created by Dnyanada Patil.
+    &copy; 2025 Story Smith. Website created by Dnyanada Patil.
   </footer>
+
+  <!-- Chatbot UI -->
+  <button id="chatbot-toggle">💬</button>
+
+  <div id="chatbot-box">
+    <div id="chatbot-header">StoryBot</div>
+    <div id="chatbot-messages">
+      <div><strong>StoryBot:</strong> Hi! Need help outlining your story idea?</div>
+    </div>
+    <div id="chatbot-input">
+      <input type="text" id="chat-input" placeholder="Type your message..." />
+      <button id="send-btn">Send</button>
+    </div>
+  </div>
+
+  <!-- Chatbot Script -->
+  <script>
+    const toggleBtn = document.getElementById("chatbot-toggle");
+    const chatBox = document.getElementById("chatbot-box");
+    const sendBtn = document.getElementById("send-btn");
+    const chatInput = document.getElementById("chat-input");
+    const chatMessages = document.getElementById("chatbot-messages");
+
+    toggleBtn.addEventListener("click", () => {
+      chatBox.style.display = chatBox.style.display === "none" ? "flex" : "none";
+    });
+
+    sendBtn.addEventListener("click", sendMessage);
+    chatInput.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    function sendMessage() {
+      const msg = chatInput.value.trim();
+      if (msg === "") return;
+      const userMsg = <div><strong>You:</strong> ${msg}</div>;
+      chatMessages.innerHTML += userMsg;
+
+      // Simulated AI reply
+      const response = <div><strong>StoryBot:</strong> That sounds great! Want me to help build an outline?</div>;
+      setTimeout(() => {
+        chatMessages.innerHTML += response;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }, 600);
+
+      chatInput.value = "";
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  </script>
+
 </body>
 </html>
